@@ -24,10 +24,13 @@ public class MySQLDataSourceProvider implements Provider<DataSource> {
 
     @Override
     public DataSource get() {
-        HikariDataSource dataSource = new HikariDataSource(createConfiguration());
-        flywayMigrate(dataSource);
-
-        return dataSource;
+        try (final HikariDataSource dataSource = new HikariDataSource(createConfiguration())) {
+            flywayMigrate(dataSource);
+            return dataSource;
+        } catch (Throwable t) {
+            logger.error("error migration DB", t);
+            throw t;
+        }
     }
 
     private HikariConfig createConfiguration(){
