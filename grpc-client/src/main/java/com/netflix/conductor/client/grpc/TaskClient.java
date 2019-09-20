@@ -6,17 +6,20 @@ import com.google.common.collect.Lists;
 import com.netflix.conductor.common.metadata.tasks.Task;
 import com.netflix.conductor.common.metadata.tasks.TaskExecLog;
 import com.netflix.conductor.common.metadata.tasks.TaskResult;
-import com.netflix.conductor.grpc.MetadataServicePb;
 import com.netflix.conductor.grpc.TaskServiceGrpc;
 import com.netflix.conductor.grpc.TaskServicePb;
 import com.netflix.conductor.proto.TaskPb;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class TaskClient extends ClientBase {
+    private static final Logger logger = LoggerFactory.getLogger(TaskClient.class);
+
     private TaskServiceGrpc.TaskServiceBlockingStub stub;
 
     public TaskClient(String address, int port) {
@@ -141,6 +144,11 @@ public class TaskClient extends ClientBase {
      */
     public void updateTask(TaskResult taskResult) {
         Preconditions.checkNotNull(taskResult, "Task result cannot be null");
+        logger.info("Updating [{}] taskId:[{}] with status:[{}]",
+                taskResult.getWorkerId(),
+                taskResult.getTaskId(),
+                taskResult.getStatus().toString()
+        );
         stub.updateTask(TaskServicePb.UpdateTaskRequest.newBuilder()
                 .setResult(protoMapper.toProto(taskResult))
                 .build()
