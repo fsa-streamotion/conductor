@@ -38,7 +38,6 @@ netflix-conductor:
     loadSamples: true
     newrelic:
       enabled: false
-      licenseKey: NEW_RELIC_KEY_STG
       tracing:
         enabled: false
     # extraVolumeMounts: []
