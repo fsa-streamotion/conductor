@@ -11,4 +11,7 @@ dependencies {
     compile "org.hibernate:hibernate-validator:${revHiberante}"
 
     compileOnly "javax.servlet:javax.servlet-api:${revServletApi}"
+
+    //TODO: switch to log2j to when it's safe to do so https://github.com/Netflix/conductor/issues/1271
+    compileOnly "log4j:log4j:1.2.17"
 }

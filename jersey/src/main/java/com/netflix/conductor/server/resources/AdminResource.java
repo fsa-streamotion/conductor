@@ -35,6 +35,9 @@ import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.String.format;
+import static org.apache.log4j.Level.toLevel;
+
 /**
  * @author Viren
  *
@@ -80,4 +83,19 @@ public class AdminResource {
         return adminService.requeueSweep(workflowId);
 	}
 
+	/**
+	 * Temporary endpoint to adjust logging on the fly to aid troubleshooting.
+	 * Being GET make it most convenient to call(simply put uri on browser's address bar).
+	 */
+	@ApiOperation(value = "adjust logging on the fly.")
+	@GET
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/config/log/{logger}/{level}")
+	public String setLog(
+			@PathParam("logger") String logger,
+			@PathParam("level") String lvl) {
+		org.apache.log4j.Logger.getLogger(logger).setLevel(toLevel(lvl));
+		return format("set logger %s to %s", logger, lvl);
+	}
 }
