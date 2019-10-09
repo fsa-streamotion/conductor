@@ -6,8 +6,8 @@ nameOverride: "conductor"
 fullnameOverride: "netflix-conductor"
 
 server:
-  repository: kayosportsau/netflixconductor
-  tag: server-2019.0.3
+  repository: kayosportsau/fsa-streamotion/netflixconductor
+  tag: 2019.0.10
   pullPolicy: IfNotPresent
   replicaCount: 1
   # nodeSelector: {}
