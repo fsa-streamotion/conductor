@@ -27,6 +27,7 @@ netflix-conductor:
   fullnameOverride: "netflix-conductor"
 
   server:
+
     ingress:
       annotations:
         fabric8.io/expose: "true"
@@ -35,9 +36,10 @@ netflix-conductor:
       preview_repository_server:
       preview_tag_server:
       pullPolicy: IfNotPresent
-    loadSamples: true
+    loadSamples: false
     newrelic:
-      enabled: false
+      licenseKey: 70e37aaa633e349320a9c1107d5daca497fc4791
+      enabled: true
       tracing:
         enabled: false
     # extraVolumeMounts: []
@@ -66,8 +68,7 @@ netflix-conductor:
         cpu: 10m
         memory: 100Mi
 
-# Not needed for preview but commented as a reminder to fix preview ingress
-
+  # Not needed for preview but commented as a reminder to fix preview ingress
   # ingress:
   #   server:
   #     enabled: false
@@ -230,14 +231,12 @@ redis:
 
 # # Add the following and change enabled to true if external mysql required
 mysql:
-  enabled: false
-#   fullnameOverride: mysql
-
-#   mysqlRootPassword: testing
-#   mysqlUser: conductor
-#   mysqlPassword: ConductorMysqlPassword
-#   mysqlDatabase: conductor
-
-#   initializationFiles:
-#     grant-user-access.sql: |-
-#       GRANT ALL PRIVILEGES ON conductor.* TO 'conductor'@'localhost';
+  enabled: true
+  host: fsmysqlstg01.fsa.ninja
+  username: conductor
+  password: conductor
+  dbName: conductor
+  # see [Maximum Connections to an Aurora MySQL DB Instance] at:
+  # 	https://docs.amazonaws.cn/en_us/AmazonRDS/latest/AuroraUserGuide/AuroraMySQL.Managing.Performance.html
+  connectionPoolMaxSize: 90
+  connectionPoolMinIdle: 20
