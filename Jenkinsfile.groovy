@@ -37,7 +37,7 @@ pipeline {
 
                     dir('charts/preview') {
                       sh "make preview"
-                      sh "jx preview --app $APP_NAME --namespace=$PREVIEW_NAMESPACE --dir ../.."
+                      sh "jx preview --app $netflixconductor --namespace=$PREVIEW_NAMESPACE --dir ../.."
                       sh "make print"
                       sh "sleep 60"
                       sh "kubectl describe pods -n=$PREVIEW_NAMESPACE"
