@@ -2,10 +2,16 @@ OS := $(shell uname)
 
 preview: 
 ifeq ($(OS),Darwin)
+	echo "Darwin";
+	echo "PREVIEW_VERSION: $(PREVIEW_VERSION)"
+	echo "DOCKER_REGISTRY: $(DOCKER_REGISTRY)"
 	sed -i "" -e "s/version:.*/version: $(PREVIEW_VERSION)/" Chart.yaml
 	sed -i "" -e "s/version:.*/version: $(PREVIEW_VERSION)/" ../*/Chart.yaml
 	sed -i "" -e "s/tag:.*/tag: $(PREVIEW_VERSION)/" values.yaml
 else ifeq ($(OS),Linux)
+	echo "Linux"
+	echo "PREVIEW_VERSION: $(PREVIEW_VERSION)"
+	echo "DOCKER_REGISTRY: $(DOCKER_REGISTRY)"
 	sed -i -e "s/version:.*/version: $(PREVIEW_VERSION)/" Chart.yaml
 	sed -i -e "s/version:.*/version: $(PREVIEW_VERSION)/" ../*/Chart.yaml
 	sed -i -e "s|preview_repository_server:.*|repository: $(DOCKER_REGISTRY)\/netflixconductor|" values.yaml # Please do not edit this line! Managed by customize.sh
