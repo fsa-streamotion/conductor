@@ -7,7 +7,7 @@ fullnameOverride: "netflix-conductor"
 
 server:
   repository: kayosportsau/netflixconductor
-  tag: server-2019.0.3
+  tag: server-2019.0.35
   pullPolicy: IfNotPresent
   replicaCount: 1
   # nodeSelector: {}
@@ -38,7 +38,7 @@ server:
 
 ui:
   repository: kayosportsau/netflixconductor
-  tag: ui-2019.0.3
+  tag: ui-2019.0.35
   pullPolicy: IfNotPresent
   serverUrl: "http://conductor-server:8080/api/"
   replicaCount: 1
