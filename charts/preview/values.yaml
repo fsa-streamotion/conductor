@@ -39,8 +39,7 @@ netflix-conductor:
       enabled: false
       tracing:
         enabled: false
-    # extraVolumeMounts: []
-    # extraVolumes: []
+
     resources:
       limits:
         memory: 1.5Gi
