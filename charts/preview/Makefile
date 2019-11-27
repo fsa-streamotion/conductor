@@ -14,7 +14,6 @@ else ifeq ($(OS),Linux)
 
 	sed -i -e "s/preview_tag_ui:.*/tag: ui-$(PREVIEW_VERSION)/" values.yaml
 	sed -i -e "s/preview_tag_server:.*/tag: server-$(PREVIEW_VERSION)/" values.yaml
-	cat values.yaml
 else
 	echo "platfrom $(OS) not supported to release from"
 	exit -1

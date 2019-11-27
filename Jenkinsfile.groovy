@@ -24,7 +24,7 @@ pipeline {
                     sh "echo **************** PREVIEW_VERSION: $PREVIEW_VERSION , PREVIEW_NAMESPACE: $PREVIEW_NAMESPACE, HELM_RELEASE: $HELM_RELEASE"
                     sh "echo $PREVIEW_VERSION > PREVIEW_VERSION"
                     sh "skaffold version"
-                    sh "./gradlew build -x test -x :conductor-client:findbugsMain --parallel "
+                    sh "./gradlew build -x test -x :conductor-client:findbugsMain --parallel -w "
 
                     sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-server.yaml"
                     sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-ui.yaml"
@@ -64,7 +64,7 @@ pipeline {
                     sh "echo \$(jx-release-version) > VERSION"
                     sh "jx step tag --version \$(cat VERSION)"
                     sh "skaffold version"
-                    sh "./gradlew build -x test -x :conductor-client:findbugsMain --parallel "
+                    sh "./gradlew build -x test -x :conductor-client:findbugsMain --parallel -w "
                     sh "export VERSION=`cat VERSION` && skaffold build -f skaffold-server.yaml"
                     sh "export VERSION=`cat VERSION` && skaffold build -f skaffold-ui.yaml"
 
