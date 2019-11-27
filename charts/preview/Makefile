@@ -2,16 +2,11 @@ OS := $(shell uname)
 
 preview: 
 ifeq ($(OS),Darwin)
-	echo "Darwin";
-	echo "PREVIEW_VERSION: $(PREVIEW_VERSION)"
-	echo "DOCKER_REGISTRY: $(DOCKER_REGISTRY)"
 	sed -i "" -e "s/version:.*/version: $(PREVIEW_VERSION)/" Chart.yaml
 	sed -i "" -e "s/version:.*/version: $(PREVIEW_VERSION)/" ../*/Chart.yaml
 	sed -i "" -e "s/tag:.*/tag: $(PREVIEW_VERSION)/" values.yaml
+	cat values.yaml
 else ifeq ($(OS),Linux)
-	echo "Linux"
-	echo "PREVIEW_VERSION: $(PREVIEW_VERSION)"
-	echo "DOCKER_REGISTRY: $(DOCKER_REGISTRY)"
 	sed -i -e "s/version:.*/version: $(PREVIEW_VERSION)/" Chart.yaml
 	sed -i -e "s/version:.*/version: $(PREVIEW_VERSION)/" ../*/Chart.yaml
 	sed -i -e "s|preview_repository_server:.*|repository: $(DOCKER_REGISTRY)\/netflixconductor|" values.yaml # Please do not edit this line! Managed by customize.sh
@@ -19,6 +14,7 @@ else ifeq ($(OS),Linux)
 
 	sed -i -e "s/preview_tag_server:.*/tag: ui-$(PREVIEW_VERSION)/" values.yaml
 	sed -i -e "s/preview_tag_ui:.*/tag: server-$(PREVIEW_VERSION)/" values.yaml
+	cat values.yaml
 
 else
 	echo "platfrom $(OS) not supported to release from"
