@@ -104,3 +104,8 @@ mysql:
   # https://docs.amazonaws.cn/en_us/AmazonRDS/latest/AuroraUserGuide/AuroraMySQL.Managing.Performance.html
   connectionPoolMaxSize: 50
   connectionPoolMinIdle: 20
+
+env:
+  xxx: yyy
+  workflow.elasticsearch.instanceType: external
+  workflow.elasticsearch.url: "preview-elasticsearch-client:9200"
