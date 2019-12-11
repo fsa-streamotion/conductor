@@ -36,8 +36,8 @@ pipeline {
                     }
 
                     dir('charts/preview') {
-                      sh "make preview"
-                      sh "jx preview --app $APP_NAME --namespace=$PREVIEW_NAMESPACE --dir ../.."
+                      sh "echo $PREVIEW_VERSION && echo $DOCKER_REGISTRY  && make preview"
+                      sh "jx preview --app $APP_NAME --namespace=$PREVIEW_NAMESPACE --dir ../.. && cat values.yaml"
                       sh "make print"
                       sh "sleep 60"
                       sh "kubectl describe pods -n=$PREVIEW_NAMESPACE"
