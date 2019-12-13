@@ -15,4 +15,4 @@ build:
       dockerfile: docker/ui/Dockerfile
   tagPolicy:
     envTemplate:
-      template: '{{.DOCKER_REGISTRY}}/netflixconductor:ui-{{.VERSION}}'
+      template: '{{.DOCKER_REGISTRY}}:ui-{{.VERSION}}'

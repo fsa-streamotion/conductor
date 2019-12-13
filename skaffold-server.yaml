@@ -9,4 +9,4 @@ build:
       dockerfile: docker/server/Dockerfile
   tagPolicy:
     envTemplate:
-      template: '{{.DOCKER_REGISTRY}}/netflixconductor:server-{{.VERSION}}'
+      template: '{{.DOCKER_REGISTRY}}:server-{{.VERSION}}'
