@@ -7,6 +7,9 @@ pipeline {
         APP_NAME = 'netflix-conductor'
         DOCKER_REGISTRY = 'kayosportsau'
         ORG = 'fsa-streamotion'
+        //https://docs.gradle.org/current/userguide/build_environment.html
+        org.gradle.caching = "true"
+        org.gradle.logging.level = "warn"
     }
 
     stages {
