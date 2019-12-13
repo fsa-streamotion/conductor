@@ -36,7 +36,7 @@ pipeline {
                     }
 
                     dir('charts/preview') {
-                      sh "make preview && jx preview --app $APP_NAME --namespace=$PREVIEW_NAMESPACE --dir ../.."
+                      sh "make preview && jx preview --verbose=true --app $APP_NAME --namespace=$PREVIEW_NAMESPACE --dir ../.."
                       sh "make print && sleep 6000"
                       sh "kubectl describe pods -n=$PREVIEW_NAMESPACE && kubectl logs -n $PREVIEW_NAMESPACE  deployment/conductor-server --all-containers=true"
                     }
