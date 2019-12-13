@@ -24,7 +24,7 @@ pipeline {
                     sh "echo **************** PREVIEW_VERSION: $PREVIEW_VERSION , PREVIEW_NAMESPACE: $PREVIEW_NAMESPACE, HELM_RELEASE: $HELM_RELEASE"
                     sh "echo $PREVIEW_VERSION > PREVIEW_VERSION"
                     sh "skaffold version"
-                    sh "./gradlew build -x test -x :conductor-client:findbugsMain "
+                    sh "./gradlew build -w -x test -x :conductor-client:findbugsMain "
 
                     sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-server.yaml"
                     sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-ui.yaml"
@@ -36,12 +36,9 @@ pipeline {
                     }
 
                     dir('charts/preview') {
-                      sh "make preview"
-                      sh "jx preview --app $APP_NAME --namespace=$PREVIEW_NAMESPACE --dir ../.."
-                      sh "make print"
-                      sh "sleep 60"
-                      sh "kubectl describe pods -n=$PREVIEW_NAMESPACE"
-                      sh "kubectl logs -n $PREVIEW_NAMESPACE  deployment/conductor-server --all-containers=true"
+                      sh "make preview && jx preview --app $APP_NAME --namespace=$PREVIEW_NAMESPACE --dir ../.."
+                      sh "make print && sleep 60"
+                      sh "kubectl describe pods -n=$PREVIEW_NAMESPACE && kubectl logs -n $PREVIEW_NAMESPACE  deployment/conductor-server --all-containers=true"
                     }
 
                 }
