@@ -9,6 +9,10 @@ else ifeq ($(OS),Linux)
 	sed -i -e "s/version:.*/version: $(PREVIEW_VERSION)/" Chart.yaml
 	sed -i -e "s/version:.*/version: $(PREVIEW_VERSION)/" ../*/Chart.yaml
 	# the reg is fixed, the prefix server/ui and version are added via Values.yaml
+
+	sed -i -e "s|preview_repository:.*|repository: $(DOCKER_REGISTRY)|" values.yaml # Please do not edit this line! Managed by customize.sh
+	sed -i -e "s|preview_tag:.*|repository: $(PREVIEW_VERSION)|" values.yaml # Please do not edit this line! Managed by customize.sh
+
 	sed -i -e "s|preview_repository_server:.*|repository: $(DOCKER_REGISTRY)|" values.yaml # Please do not edit this line! Managed by customize.sh
 	sed -i -e "s|preview_repository_ui:.*|repository: $(DOCKER_REGISTRY)|" values.yaml # Please do not edit this line! Managed by customize.sh
 
