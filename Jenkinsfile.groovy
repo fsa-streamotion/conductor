@@ -7,9 +7,6 @@ pipeline {
         APP_NAME = 'netflix-conductor'
         DOCKER_REGISTRY = 'kayosportsau'
         ORG = 'fsa-streamotion'
-        //https://docs.gradle.org/current/userguide/build_environment.html
-        org.gradle.caching = "true"
-        org.gradle.logging.level = "warn"
     }
 
     stages {
@@ -27,7 +24,9 @@ pipeline {
                     sh "echo **************** PREVIEW_VERSION: $PREVIEW_VERSION , PREVIEW_NAMESPACE: $PREVIEW_NAMESPACE, HELM_RELEASE: $HELM_RELEASE"
                     sh "echo $PREVIEW_VERSION > PREVIEW_VERSION"
                     sh "skaffold version"
-                    sh "./gradlew build -x test -x :conductor-client:findbugsMain "
+                    // https://docs.gradle.org/current/userguide/build_environment.html
+                    // TODO: use env instead to keep main control flow obvious
+                    sh "./gradlew build -Dorg.gradle.caching=true -Dorg.gradle.logging.level=warn -x test -x :conductor-client:findbugsMain"
 
                     sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-server.yaml"
                     sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-ui.yaml"
