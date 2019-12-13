@@ -8,11 +8,8 @@ ifeq ($(OS),Darwin)
 else ifeq ($(OS),Linux)
 	sed -i -e "s/version:.*/version: $(PREVIEW_VERSION)/" Chart.yaml
 	sed -i -e "s/version:.*/version: $(PREVIEW_VERSION)/" ../*/Chart.yaml
-# 	sed -i -e "s|preview_repository_server:.*|repository: $(DOCKER_REGISTRY)\/netflix-conductor|" values.yaml # Please do not edit this line! Managed by customize.sh
-# 	sed -i -e "s|preview_repository_ui:.*|repository: $(DOCKER_REGISTRY)\/netflix-conductor|" values.yaml # Please do not edit this line! Managed by customize.sh
-
-	sed -i -e "s|preview_repository_server:.*|repository: kayosportsau/netflixconductor/netflix-conductor|" values.yaml # Please do not edit this line! Managed by customize.sh
-	sed -i -e "s|preview_repository_ui:.*|repository: kayosportsau/netflixconductor\/netflix-conductor|" values.yaml # Please do not edit this line! Managed by customize.sh
+	sed -i -e "s|preview_repository_server:.*|repository: kayosportsau\/netflixconductor|" values.yaml # Please do not edit this line! Managed by customize.sh
+	sed -i -e "s|preview_repository_ui:.*|repository: kayosportsau\/netflixconductor|" values.yaml # Please do not edit this line! Managed by customize.sh
 
 	sed -i -e "s/preview_tag_server:.*/tag: $(PREVIEW_VERSION)/" values.yaml
 	sed -i -e "s/preview_tag_ui:.*/tag: ui-$(PREVIEW_VERSION)/" values.yaml
