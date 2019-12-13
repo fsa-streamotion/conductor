@@ -86,14 +86,9 @@ pipeline {
                 container('maven') {
                     dir("charts/$APP_NAME") {
                         sh "jx step changelog --generate-yaml=false --version v\$(cat ../../VERSION)"
-
-                        // release the helm chart
-                        // sh "jx step helm release"
-                        // sh "ls -la"
                         sh "echo ************************** HELM ************************** "
                         sh "make print"
                         sh "echo ************************** END HELM ************************** "
-
                         sh "make release"
                         // promote through all 'Auto' promotion Environments
                         sh "jx promote -b --no-poll=true  --helm-repo-url=$CHART_REPOSITORY --no-poll=true --no-merge=true --no-wait=true --env=staging --version \$(cat ../../VERSION)"
