@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Implementation-Title: com.netflix.conductor#conductor-server;2019.1.0-
+ SNAPSHOT
+Module-Origin: git@github.com:fsa-streamotion/conductor.git
+Build-Date: 2019-12-14_18:59:14
+Build-Id: LOCAL
+Implementation-Version: 2019.1.0-SNAPSHOT
+Module-Owner: netflixoss@netflix.com
+Build-Number: LOCAL
+Built-By: hoa.phan
+Change: 6507afb
+Module-Source: /server
+Branch: feature/RELEASE-000-DockerReg
+Built-Status: integration
+Gradle-Version: 4.8.1
+Build-Job: LOCAL
+Built-OS: Mac OS X
+X-Compile-Target-JDK: 1.8
+Build-Host: IT-C02WH0ADG8WL
+X-Compile-Source-JDK: 1.8
+Created-By: 1.8.0_222-b10 (Oracle Corporation)
+Module-Email: netflixoss@netflix.com
+Build-Java-Version: 1.8.0_222
+
