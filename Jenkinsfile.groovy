@@ -32,6 +32,9 @@ pipeline {
                         currentBuild.description = "${DOCKER_REGISTRY}:server-${PREVIEW_VERSION}"
                         currentBuild.displayName = "${DOCKER_REGISTRY}:server-${PREVIEW_VERSION}" + "\n ${DOCKER_REGISTRY}/netflixconductor:ui-${PREVIEW_VERSION}"
                     }
+                    dir('charts') {
+                        sh "./preview.sh"
+                    }
 
                     dir('charts/preview') {
                       sh "make preview && jx preview --verbose --app $APP_NAME --namespace=$PREVIEW_NAMESPACE --dir ../.."
