@@ -46,7 +46,7 @@ pipeline {
 
                     dir('client/python') {
                         sh "export CONDUCTOR_API='http://conductor-server:8080/api/' && python kitchensink_workers.py > worker.log &"
-                        sh "python load_test_kitchen_sink.py"
+                        sh "export CONDUCTOR_API='http://conductor-server:8080/api/' && python load_test_kitchen_sink.py"
                     }
 
                     // ///DO some loadtest: 
