@@ -46,8 +46,9 @@ pipeline {
 
                     dir('client/python') {
                         sh "export CONDUCTOR_API=\$(k get ing conductor-server -o jsonpath='{.spec.rules[].host}')/api"
-                        sh "python kitchensink_workers.py > worker.log &"
+                        sh "python kitchensink_workers.py > worker.log & ; WORKER_PID=\$!"
                         sh "python load_test_kitchen_sink.py"
+                        sh "kill \$WORKER_PID"
                     }
 
                     // ///DO some loadtest: 
