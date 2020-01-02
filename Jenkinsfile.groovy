@@ -20,20 +20,24 @@ pipeline {
                 PREVIEW_NAMESPACE = "$APP_NAME-$BRANCH_NAME".toLowerCase()
                 HELM_RELEASE = "$PREVIEW_NAMESPACE".toLowerCase()
             }
+
+            parallel {
+                stage('build') {
+                    container('maven') {
+                        sh "skaffold version && ./gradlew build -w -x test -x :conductor-client:findbugsMain "
+                        sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-server.yaml"
+                    }
+                }
+                stage('ui') {
+                    container('maven') {
+                        sh "export VERSION=$PREVIEW_VERSION && export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-ui.yaml"
+                    }
+                }
+            }
             steps {
                 container('maven') {
                     sh "echo **************** PREVIEW_VERSION: $PREVIEW_VERSION , PREVIEW_NAMESPACE: $PREVIEW_NAMESPACE, HELM_RELEASE: $HELM_RELEASE"
                     sh "echo $PREVIEW_VERSION > PREVIEW_VERSION"
-
-                    parallel(
-                            server: {
-                                sh "skaffold version && ./gradlew build -w -x test -x :conductor-client:findbugsMain "
-                                sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-server.yaml"
-                            },
-                            ui: {
-                                sh "export VERSION=$PREVIEW_VERSION && export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-ui.yaml"
-                            }
-                    )
 
                     script {
                         def buildVersion = readFile "${env.WORKSPACE}/PREVIEW_VERSION"
@@ -46,15 +50,14 @@ pipeline {
                     }
 
                     dir('charts/preview') {
-                      sh "make preview && jx preview --app $APP_NAME --namespace=$PREVIEW_NAMESPACE --dir ../.."
-                      sh "make print && sleep 60"
-                      sh "kubectl describe pods -n $PREVIEW_NAMESPACE"
-                      sh "echo '************************************************\n' && cat values.yaml"
+                        sh "make preview && jx preview --app $APP_NAME --namespace=$PREVIEW_NAMESPACE --dir ../.."
+                        sh "make print && sleep 60"
+                        sh "kubectl describe pods -n $PREVIEW_NAMESPACE"
+                        sh "echo '************************************************\n' && cat values.yaml"
                     }
 
 
-
-                    // ///DO some loadtest: 
+                    // ///DO some loadtest:
                     // 1. make sure conductor preview up & running
                     // 2. upload some workflow & tasks in conductor server
                     // 3. simulate some producers to generate X amount of workflow
