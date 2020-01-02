@@ -19,6 +19,7 @@ pipeline {
                 PREVIEW_VERSION = "0.0.0-SNAPSHOT-$BRANCH_NAME-$BUILD_NUMBER"
                 PREVIEW_NAMESPACE = "$APP_NAME-$BRANCH_NAME".toLowerCase()
                 HELM_RELEASE = "$PREVIEW_NAMESPACE".toLowerCase()
+                CONDUCTOR_API = "conductor-server.${PREVIEW_NAMESPACE}.dev.cluster.foxsports-gitops-prod.com.au"
             }
             steps {
                 container('maven') {
@@ -45,8 +46,9 @@ pipeline {
                     }
 
                     dir('client/python') {
-                        sh "export CONDUCTOR_API='http://conductor-server:8080/api/' && python kitchensink_workers.py > worker.log &"
-                        sh "export CONDUCTOR_API='http://conductor-server:8080/api/' && python load_test_kitchen_sink.py"
+                        sh "printenv | sort"
+                        sh "python kitchensink_workers.py > worker.log &"
+                        sh "python load_test_kitchen_sink.py"
                     }
 
                     // ///DO some loadtest: 
