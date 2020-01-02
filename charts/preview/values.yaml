@@ -37,9 +37,10 @@ netflix-conductor:
       pullPolicy: IfNotPresent
     loadSamples: true
     newrelic:
-      enabled: false
+      enabled: true
       tracing:
         enabled: false
+      licenseKey: "c3a6b94918f96d44af11c628b52630d59f5ad20c"
     resources:
       limits:
         # We'r setting Xms = Xmx anyway, whichever the amount we know conductor will be comfortable with.
