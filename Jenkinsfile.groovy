@@ -44,7 +44,11 @@ pipeline {
                       sh "echo '************************************************\n' && cat values.yaml"
                     }
 
-
+                    dir('client/python') {
+                        sh "export CONDUCTOR_API=\$(k get ing conductor-server -o jsonpath='{.spec.rules[].host}')/api"
+                        sh "python kitchensink_workers.py > worker.log &"
+                        sh "python load_test_kitchen_sink.py"
+                    }
 
                     // ///DO some loadtest: 
                     // 1. make sure conductor preview up & running

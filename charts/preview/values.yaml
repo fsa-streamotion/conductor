@@ -60,10 +60,10 @@ netflix-conductor:
 
     resources:
       limits:
-        memory: 100Mi
+        memory: 200Mi
       requests:
-        cpu: 10m
-        memory: 100Mi
+        cpu: 100m
+        memory: 200Mi
 
   # Not needed for preview but commented as a reminder to fix preview ingress
 
@@ -99,13 +99,17 @@ redis:
 
 # # Add the following and change enabled to true if external mysql required
 mysql:
-  enabled: false
+  enabled: true
   mysqlRootPassword: pass
   mysqlUser: conductor
   mysqlPassword: ConductorMysqlPassword
   username: conductor
   password: ConductorMysqlPassword
   mysqlDatabase: conductor
+  resources:
+    requests:
+      memory: 1Gi
+      cpu: 2
   ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services---service-types
   service:
     annotations:
