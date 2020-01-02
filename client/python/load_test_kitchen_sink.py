@@ -7,13 +7,13 @@ payload = {"task2Name": "task_5"}
 
 default_conductor_api = 'http://localhost:8080/api'
 default_workflow_count = 20
-default_expect_spawning_time_secs = 0.5
+default_expect_spawning_time_secs = 5
 default_expect_completion_time_secs = 60
 
 conductor_api = os.getenv('CONDUCTOR_API', default_conductor_api)
 workflow_count = int(os.getenv('EXPECT_WORKFLOW_COUNT', default_workflow_count))
-expect_spawning_time_secs = float(os.getenv('EXPECT_WORKFLOW_CREATION_TIME', default_expect_spawning_time_secs))
-expect_completion_time_secs = float(os.getenv('EXPECT_WORKFLOW_COMPLETION_TIME', default_expect_completion_time_secs))
+expect_spawning_time_secs = float(os.getenv('EXPECT_WORKFLOW_CREATION_TIME_SECS', default_expect_spawning_time_secs))
+expect_completion_time_secs = float(os.getenv('EXPECT_WORKFLOW_COMPLETION_TIME_SECS', default_expect_completion_time_secs))
 print("****************************************")
 print("* conductor_api:[{}]  ".format(conductor_api))
 print("* workflow_count:[{}] ".format(workflow_count))
