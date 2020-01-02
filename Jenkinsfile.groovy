@@ -20,24 +20,26 @@ pipeline {
                 PREVIEW_NAMESPACE = "$APP_NAME-$BRANCH_NAME".toLowerCase()
                 HELM_RELEASE = "$PREVIEW_NAMESPACE".toLowerCase()
             }
-
-            parallel {
-                stage('build') {
-                    steps {
-                        container('maven') {
-                            sh "skaffold version && ./gradlew build -w -x test -x :conductor-client:findbugsMain "
-                            sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-server.yaml"
+            stage('Parallel SHIT!'){
+                parallel {
+                    stage('build') {
+                        steps {
+                            container('maven') {
+                                sh "skaffold version && ./gradlew build -w -x test -x :conductor-client:findbugsMain "
+                                sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-server.yaml"
+                            }
                         }
                     }
-                }
-                stage('ui') {
-                    steps {
-                        container('maven') {
-                            sh "export VERSION=$PREVIEW_VERSION && export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-ui.yaml"
+                    stage('ui') {
+                        steps {
+                            container('maven') {
+                                sh "export VERSION=$PREVIEW_VERSION && export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-ui.yaml"
+                            }
                         }
                     }
                 }
             }
+
             stage("JOIN") {
                 container('maven') {
                     sh "echo **************** PREVIEW_VERSION: $PREVIEW_VERSION , PREVIEW_NAMESPACE: $PREVIEW_NAMESPACE, HELM_RELEASE: $HELM_RELEASE"
