@@ -5,7 +5,7 @@ import requests
 
 payload = {"task2Name": "task_5"}
 
-default_conductor_api = 'localhost:8080/api'
+default_conductor_api = 'http://localhost:8080/api'
 default_workflow_count = 20
 default_expect_spawning_time_secs = 0.5
 default_expect_completion_time_secs = 60
@@ -22,7 +22,7 @@ print("* expect_completion_time_secs:[{}] ".format(expect_completion_time_secs))
 print("****************************************")
 
 def count_running_worklow():
-    res = requests.get('http://localhost:8080/api/workflow/running/kitchensink?version=1')
+    res = requests.get('{0}/workflow/running/kitchensink?version=1'.format(conductor_api))
     return len(res.json())
 
 
@@ -30,7 +30,7 @@ def spawn():
     print("**** spawning workflow .... ****\n")
     for x in range(1, workflow_count):
         r = requests.post(
-            url='http://{0}/workflow/kitchensink'.format(conductor_api),
+            url='{0}/workflow/kitchensink'.format(conductor_api),
             json=payload,
             headers={'content-type': 'application/json'}
         )
