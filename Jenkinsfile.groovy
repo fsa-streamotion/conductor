@@ -23,18 +23,22 @@ pipeline {
 
             parallel {
                 stage('build') {
-                    container('maven') {
-                        sh "skaffold version && ./gradlew build -w -x test -x :conductor-client:findbugsMain "
-                        sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-server.yaml"
+                    steps {
+                        container('maven') {
+                            sh "skaffold version && ./gradlew build -w -x test -x :conductor-client:findbugsMain "
+                            sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-server.yaml"
+                        }
                     }
                 }
                 stage('ui') {
-                    container('maven') {
-                        sh "export VERSION=$PREVIEW_VERSION && export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-ui.yaml"
+                    steps {
+                        container('maven') {
+                            sh "export VERSION=$PREVIEW_VERSION && export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-ui.yaml"
+                        }
                     }
                 }
             }
-            steps {
+            stage("JOIN") {
                 container('maven') {
                     sh "echo **************** PREVIEW_VERSION: $PREVIEW_VERSION , PREVIEW_NAMESPACE: $PREVIEW_NAMESPACE, HELM_RELEASE: $HELM_RELEASE"
                     sh "echo $PREVIEW_VERSION > PREVIEW_VERSION"
