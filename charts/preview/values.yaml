@@ -109,7 +109,7 @@ mysql:
   resources:
     requests:
       memory: 1Gi
-      cpu: 2
+      cpu: 2000m
   ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services---service-types
   service:
     annotations:
