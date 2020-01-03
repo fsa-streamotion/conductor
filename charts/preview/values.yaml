@@ -78,8 +78,8 @@ netflix-conductor:
 
   elasticsearch:
     enabled: true
-    host: preview-es
-    port: 9300
+    host: http://preview-elasticsearch-client:9200
+    port: 9200
     indexName: "conductor"
 
   redis:
@@ -96,7 +96,10 @@ netflix-conductor:
 
 # Add the following and change enabled to true if external es required
 elasticsearch:
-  enabled: false
+  enabled: true
+  host: http://preview-elasticsearch-client
+  port: 9200
+  indexName: "conductor"
 # Add the following and change enabled to true if external redis required
 redis:
   enabled: false
