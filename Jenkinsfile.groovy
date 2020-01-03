@@ -20,38 +20,57 @@ pipeline {
                 PREVIEW_NAMESPACE = "$APP_NAME-$BRANCH_NAME".toLowerCase()
                 HELM_RELEASE = "$PREVIEW_NAMESPACE".toLowerCase()
             }
-            steps {
-                container('maven') {
+            stage {
+                stage(' set version'){
                     sh "echo **************** PREVIEW_VERSION: $PREVIEW_VERSION , PREVIEW_NAMESPACE: $PREVIEW_NAMESPACE, HELM_RELEASE: $HELM_RELEASE"
                     sh "echo $PREVIEW_VERSION > PREVIEW_VERSION"
-                    sh "skaffold version && ./gradlew build -w -x test -x :conductor-client:findbugsMain "
-                    sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-server.yaml && export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-ui.yaml"
-
-                    script {
-                        def buildVersion = readFile "${env.WORKSPACE}/PREVIEW_VERSION"
-                        currentBuild.description = "${DOCKER_REGISTRY}/netflixconductor:server-${PREVIEW_VERSION}"
-                        currentBuild.displayName = "${DOCKER_REGISTRY}/netflixconductor:server-${PREVIEW_VERSION}" + "\n ${DOCKER_REGISTRY}/netflixconductor:ui-${PREVIEW_VERSION}"
+                }
+                parallel {
+                    stage('build server') {
+                        steps {
+                            container('maven') {
+                                sh "skaffold version && ./gradlew build -w -x test -x :conductor-client:findbugsMain "
+                                sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-server.yaml"
+                            }
+                        }
                     }
-
-                    dir('charts') {
-                        sh "./preview.sh"
+                    stage('build ui') {
+                        steps {
+                            container('maven') {
+                                sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-ui.yaml"
+                            }
+                        }
                     }
+                }
+            }
+            stage {
+                steps {
+                    container('maven') {
+                        script {
+                            def buildVersion = readFile "${env.WORKSPACE}/PREVIEW_VERSION"
+                            currentBuild.description = "${DOCKER_REGISTRY}/netflixconductor:server-${PREVIEW_VERSION}"
+                            currentBuild.displayName = "${DOCKER_REGISTRY}/netflixconductor:server-${PREVIEW_VERSION}" + "\n ${DOCKER_REGISTRY}/netflixconductor:ui-${PREVIEW_VERSION}"
+                        }
 
-                    dir('charts/preview') {
-                      sh "make preview && jx preview --app $APP_NAME --namespace=$PREVIEW_NAMESPACE --dir ../.."
-                      sh "make print && sleep 60"
-                      sh "kubectl describe pods -n $PREVIEW_NAMESPACE"
-                      sh "echo '************************************************\n' && cat values.yaml"
+                        dir('charts') {
+                            sh "./preview.sh"
+                        }
+
+                        dir('charts/preview') {
+                            sh "make preview && jx preview --app $APP_NAME --namespace=$PREVIEW_NAMESPACE --dir ../.."
+                            sh "make print && sleep 60"
+                            sh "kubectl describe pods -n $PREVIEW_NAMESPACE"
+                            sh "echo '************************************************\n' && cat values.yaml"
+                        }
+
+
+                        // ///DO some loadtest:
+                        // 1. make sure conductor preview up & running
+                        // 2. upload some workflow & tasks in conductor server
+                        // 3. simulate some producers to generate X amount of workflow
+                        // 4. simulate some workers to consume all the tasks (do concurrency)
+                        // 5. assert we dont have any hanging tasks and all workflows completed
                     }
-
-
-
-                    // ///DO some loadtest: 
-                    // 1. make sure conductor preview up & running
-                    // 2. upload some workflow & tasks in conductor server
-                    // 3. simulate some producers to generate X amount of workflow
-                    // 4. simulate some workers to consume all the tasks (do concurrency)
-                    // 5. assert we dont have any hanging tasks and all workflows completed 
                 }
             }
         }
