@@ -40,13 +40,13 @@ netflix-conductor:
       enabled: true
       tracing:
         enabled: false
-      licenseKey: "c3a6b94918f96d44af11c628b52630d59f5ad20c"
+      licenseKey: "70e37aaa633e349320a9c1107d5daca497fc4791"
     resources:
       limits:
         # We'r setting Xms = Xmx anyway, whichever the amount we know conductor will be comfortable with.
         memory: 4.5Gi
       requests:
-        cpu: 1
+        cpu: 4
         memory: 4.5Gi
   ui:
     ingress:
@@ -97,7 +97,7 @@ netflix-conductor:
 
 # Add the following and change enabled to true if external es required
 elasticsearch:
-  appVersion: "5.6.0"
+  appVersion: "5.6.2"
   enabled: true
   host: http://preview-elasticsearch-client
   port: 9200
