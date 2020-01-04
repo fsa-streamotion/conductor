@@ -94,6 +94,7 @@ netflix-conductor:
 
 # Add the following and change enabled to true if external es required
 elasticsearch:
+  #https://github.com/elastic/helm-charts/tree/master/elasticsearch
   image:
     rep: x
     t: y
@@ -101,6 +102,9 @@ elasticsearch:
   host: http://preview-elasticsearch-client
   port: 9200
   indexName: "conductor"
+  minimumMasterNodes: 1
+  replicas: 1
+
 # Add the following and change enabled to true if external redis required
 redis:
   enabled: false
