@@ -77,7 +77,6 @@ netflix-conductor:
   #     host: "ui.conductor.dev.cluster.foxsports-gitops-prod.com.au"
 
   elasticsearch:
-    appVersion: "5.6.2"
     enabled: true
     host: http://preview-elasticsearch-client:9200
     port: 9200
@@ -93,11 +92,11 @@ netflix-conductor:
     password: ConductorMysqlPassword
     dbName: conductor
 
-
-
 # Add the following and change enabled to true if external es required
 elasticsearch:
-  appVersion: "5.6.2"
+  image:
+    rep: x
+    t: y
   enabled: true
   host: http://preview-elasticsearch-client
   port: 9200
