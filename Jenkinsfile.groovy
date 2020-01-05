@@ -25,7 +25,10 @@ pipeline {
             }
             stages {
                 stage('build') {
-                    failFast true
+                    options {
+                        timeout(time: 1, unit: 'HOURS')
+                        parallelsAlwaysFailFast()
+                    }
                     parallel {
                         stage('build server'){
                             steps {
