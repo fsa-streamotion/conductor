@@ -6,7 +6,7 @@ import requests
 payload = {"task2Name": "task_5"}
 
 default_conductor_api = 'http://localhost:8080/api'
-default_workflow_count = 100
+default_workflow_count = 50
 default_expect_spawning_time_secs = 5
 default_expect_completion_time_secs = 60
 
