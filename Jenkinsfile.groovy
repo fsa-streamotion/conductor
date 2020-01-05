@@ -25,12 +25,31 @@ pipeline {
             }
             stages {
                 stage('build') {
+                    failFast true
+                    parallel {
+                        stage('build server'){
+                            steps {
+                                container('maven') {
+                                    sh "echo **************** PREVIEW_VERSION: $PREVIEW_VERSION , PREVIEW_NAMESPACE: $PREVIEW_NAMESPACE, HELM_RELEASE: $HELM_RELEASE"
+                                    sh "echo $PREVIEW_VERSION > PREVIEW_VERSION"
+                                    sh "skaffold version && ./gradlew build -w -x test -x :conductor-client:findbugsMain "
+                                }
+                            }
+                        }
+                        stage('build ui'){
+                            steps{
+                                container('maven') {
+                                    sh "echo **************** PREVIEW_VERSION: $PREVIEW_VERSION , PREVIEW_NAMESPACE: $PREVIEW_NAMESPACE, HELM_RELEASE: $HELM_RELEASE"
+                                    sh "echo $PREVIEW_VERSION > PREVIEW_VERSION"
+                                    sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-server.yaml && export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-ui.yaml"
+                                }
+                            }
+                        }
+                    }
+                }
+                stage('test') {
                     steps {
                         container('maven') {
-                            sh "echo **************** PREVIEW_VERSION: $PREVIEW_VERSION , PREVIEW_NAMESPACE: $PREVIEW_NAMESPACE, HELM_RELEASE: $HELM_RELEASE"
-                            sh "echo $PREVIEW_VERSION > PREVIEW_VERSION"
-                            sh "skaffold version && ./gradlew build -w -x test -x :conductor-client:findbugsMain "
-                            sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-server.yaml && export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-ui.yaml"
 
                             script {
                                 def buildVersion = readFile "${env.WORKSPACE}/PREVIEW_VERSION"
@@ -49,12 +68,7 @@ pipeline {
                                 sh "kubectl describe pods -n $PREVIEW_NAMESPACE"
                                 sh "echo '************************************************\n' && cat values.yaml"
                             }
-                        }
-                    }
-                }
-                stage('test') {
-                    steps {
-                        container('maven') {
+
                             dir('client/python') {
                                 sh "printenv | sort && kubectl get pods -n $PREVIEW_NAMESPACE"
                                 sh "python kitchensink_workers.py > worker.log &"
