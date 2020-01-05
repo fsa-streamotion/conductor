@@ -31,6 +31,12 @@ pipeline {
                             sh "echo $PREVIEW_VERSION > PREVIEW_VERSION"
                             sh "skaffold version && ./gradlew build -w -x test -x :conductor-client:findbugsMain "
                             sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-server.yaml && export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-ui.yaml"
+                        }
+                    }
+                }
+                stage('test') {
+                    steps {
+                        container('maven') {
 
                             script {
                                 def buildVersion = readFile "${env.WORKSPACE}/PREVIEW_VERSION"
@@ -49,12 +55,7 @@ pipeline {
                                 sh "kubectl describe pods -n $PREVIEW_NAMESPACE"
                                 sh "echo '************************************************\n' && cat values.yaml"
                             }
-                        }
-                    }
-                }
-                stage('test') {
-                    steps {
-                        container('maven') {
+
                             dir('client/python') {
                                 sh "printenv | sort && kubectl get pods -n $PREVIEW_NAMESPACE"
                                 sh "python kitchensink_workers.py > worker.log &"
