@@ -54,10 +54,12 @@ pipeline {
                 }
                 stage('test') {
                     steps {
-                        dir('client/python') {
-                            sh "printenv | sort && kubectl get pods -n $PREVIEW_NAMESPACE"
-                            sh "python kitchensink_workers.py > worker.log &"
-                            sh "python load_test_kitchen_sink.py"
+                        container('maven') {
+                            dir('client/python') {
+                                sh "printenv | sort && kubectl get pods -n $PREVIEW_NAMESPACE"
+                                sh "python kitchensink_workers.py > worker.log &"
+                                sh "python load_test_kitchen_sink.py"
+                            }
                         }
                     }
                 }
