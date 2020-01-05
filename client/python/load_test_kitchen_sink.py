@@ -21,8 +21,16 @@ print("* expect_spawning_time_secs:[{}] ".format(expect_spawning_time_secs))
 print("* expect_completion_time_secs:[{}] ".format(expect_completion_time_secs))
 print("****************************************")
 
+
+post_wf_url = '{0}/workflow/kitchensink'.format(conductor_api)
+get_wf_url = '{0}/workflow/running/kitchensink?version=1'.format(conductor_api)
+print("* create workflow:[{}]  ".format(post_wf_url))
+print("* count workflow :[{}]  ".format(get_wf_url))
+
+
+
 def count_running_worklow():
-    res = requests.get('{0}/workflow/running/kitchensink?version=1'.format(conductor_api))
+    res = requests.get(get_wf_url)
     return len(res.json())
 
 
@@ -30,7 +38,7 @@ def spawn():
     print("**** spawning workflow .... ****\n")
     for x in range(1, workflow_count):
         r = requests.post(
-            url='{0}/workflow/kitchensink'.format(conductor_api),
+            url=post_wf_url,
             json=payload,
             headers={'content-type': 'application/json'}
         )
