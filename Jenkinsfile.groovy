@@ -23,43 +23,43 @@ pipeline {
                 EXPECT_WORKFLOW_CREATION_TIME_SECS = "10"
                 EXPECT_WORKFLOW_COMPLETION_TIME_SECS = "300"
             }
-            steps {
-                container('maven') {
-                    sh "echo **************** PREVIEW_VERSION: $PREVIEW_VERSION , PREVIEW_NAMESPACE: $PREVIEW_NAMESPACE, HELM_RELEASE: $HELM_RELEASE"
-                    sh "echo $PREVIEW_VERSION > PREVIEW_VERSION"
-                    sh "skaffold version && ./gradlew build -w -x test -x :conductor-client:findbugsMain "
-                    sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-server.yaml && export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-ui.yaml"
+            stages {
+                stage('build') {
+                    steps {
+                        container('maven') {
+                            sh "echo **************** PREVIEW_VERSION: $PREVIEW_VERSION , PREVIEW_NAMESPACE: $PREVIEW_NAMESPACE, HELM_RELEASE: $HELM_RELEASE"
+                            sh "echo $PREVIEW_VERSION > PREVIEW_VERSION"
+                            sh "skaffold version && ./gradlew build -w -x test -x :conductor-client:findbugsMain "
+                            sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-server.yaml && export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-ui.yaml"
 
-                    script {
-                        def buildVersion = readFile "${env.WORKSPACE}/PREVIEW_VERSION"
-                        currentBuild.description = "${DOCKER_REGISTRY}/netflixconductor:server-${PREVIEW_VERSION}"
-                        currentBuild.displayName = "${DOCKER_REGISTRY}/netflixconductor:server-${PREVIEW_VERSION}" + "\n ${DOCKER_REGISTRY}/netflixconductor:ui-${PREVIEW_VERSION}"
+                            script {
+                                def buildVersion = readFile "${env.WORKSPACE}/PREVIEW_VERSION"
+                                currentBuild.description = "${DOCKER_REGISTRY}/netflixconductor:server-${PREVIEW_VERSION}"
+                                currentBuild.displayName = "${DOCKER_REGISTRY}/netflixconductor:server-${PREVIEW_VERSION}" + "\n ${DOCKER_REGISTRY}/netflixconductor:ui-${PREVIEW_VERSION}"
+                            }
+
+                            dir('charts') {
+                                sh "./preview.sh"
+                            }
+
+                            dir('charts/preview') {
+                                sh "make preview && jx preview --app $APP_NAME --namespace=$PREVIEW_NAMESPACE --dir ../.."
+                                // try to sleep through the rolling deployment, we no want to hit the old pod
+                                sh "make print && sleep 360"
+                                sh "kubectl describe pods -n $PREVIEW_NAMESPACE"
+                                sh "echo '************************************************\n' && cat values.yaml"
+                            }
+                        }
                     }
-
-                    dir('charts') {
-                        sh "./preview.sh"
+                }
+                stage('test') {
+                    steps {
+                        dir('client/python') {
+                            sh "printenv | sort && kubectl get pods -n $PREVIEW_NAMESPACE"
+                            sh "python kitchensink_workers.py > worker.log &"
+                            sh "python load_test_kitchen_sink.py"
+                        }
                     }
-
-                    dir('charts/preview') {
-                      sh "make preview && jx preview --app $APP_NAME --namespace=$PREVIEW_NAMESPACE --dir ../.."
-                      // try to sleep through the rolling deployment, we no want to hit the old pod
-                      sh "make print && sleep 360"
-                      sh "kubectl describe pods -n $PREVIEW_NAMESPACE"
-                      sh "echo '************************************************\n' && cat values.yaml"
-                    }
-
-                    dir('client/python') {
-                        sh "printenv | sort && kubectl get pods -n $PREVIEW_NAMESPACE"
-                        sh "python kitchensink_workers.py > worker.log &"
-                        sh "python load_test_kitchen_sink.py"
-                    }
-
-                    // ///DO some loadtest: 
-                    // 1. make sure conductor preview up & running
-                    // 2. upload some workflow & tasks in conductor server
-                    // 3. simulate some producers to generate X amount of workflow
-                    // 4. simulate some workers to consume all the tasks (do concurrency)
-                    // 5. assert we dont have any hanging tasks and all workflows completed 
                 }
             }
         }
