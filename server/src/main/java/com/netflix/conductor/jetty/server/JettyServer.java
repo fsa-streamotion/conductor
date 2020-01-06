@@ -12,6 +12,15 @@
  */
 package com.netflix.conductor.jetty.server;
 
+import com.amazonaws.services.secretsmanager.AWSSecretsManager;
+import com.amazonaws.services.secretsmanager.AWSSecretsManagerClientBuilder;
+import com.amazonaws.services.secretsmanager.model.DecryptionFailureException;
+import com.amazonaws.services.secretsmanager.model.GetSecretValueRequest;
+import com.amazonaws.services.secretsmanager.model.GetSecretValueResult;
+import com.amazonaws.services.secretsmanager.model.InternalServiceErrorException;
+import com.amazonaws.services.secretsmanager.model.InvalidParameterException;
+import com.amazonaws.services.secretsmanager.model.InvalidRequestException;
+import com.amazonaws.services.secretsmanager.model.ResourceNotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.servlet.GuiceFilter;
 import com.netflix.conductor.bootstrap.Main;
@@ -19,9 +28,9 @@ import com.netflix.conductor.common.metadata.tasks.TaskDef;
 import com.netflix.conductor.common.metadata.workflow.WorkflowDef;
 import com.netflix.conductor.service.Lifecycle;
 import com.sun.jersey.api.client.Client;
+import org.eclipse.jetty.jmx.MBeanContainer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.jmx.MBeanContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +44,7 @@ import java.util.List;
 
 import static java.lang.Boolean.getBoolean;
 import static java.lang.management.ManagementFactory.getPlatformMBeanServer;
+import static java.util.Base64.getDecoder;
 import static org.eclipse.jetty.util.log.Log.getLog;
 
 /**
@@ -77,6 +87,7 @@ public class JettyServer implements Lifecycle {
         server.start();
         System.out.println("Started server on http://localhost:" + port + "/");
         try {
+            getSecret();
             boolean create = getBoolean("loadSample");
             if (create) {
                 if (!kitchenSinkExists(port)) {
@@ -150,5 +161,56 @@ public class JettyServer implements Lifecycle {
         server.addEventListener(mbContainer);
         server.addBean(mbContainer);
         server.addBean(getLog());
+    }
+
+    public static void getSecret() {
+
+        String secretName = "arn:aws:secretsmanager:ap-southeast-2:053457794187:secret:DBInstanceRotationSecret-DB92FAQwTHjW-qLOFQI";
+        String region = "ap-southeast-2";
+
+        // Create a Secrets Manager client
+        AWSSecretsManager client = AWSSecretsManagerClientBuilder.standard()
+                .withRegion(region)
+                .build();
+
+        // In this sample we only handle the specific exceptions for the 'GetSecretValue' API.
+        // See https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
+        // We rethrow the exception by default.
+
+        String secret, decodedBinarySecret;
+        GetSecretValueRequest getSecretValueRequest = new GetSecretValueRequest()
+                .withSecretId(secretName);
+        GetSecretValueResult getSecretValueResult = null;
+
+        try {
+            getSecretValueResult = client.getSecretValue(getSecretValueRequest);
+        } catch (DecryptionFailureException | InternalServiceErrorException | InvalidParameterException | InvalidRequestException | ResourceNotFoundException e) {
+            // Secrets Manager can't decrypt the protected secret text using the provided KMS key.
+            // Deal with the exception here, and/or rethrow at your discretion.
+            throw e;
+        } // An error occurred on the server side.
+        // You provided an invalid value for a parameter.
+        // You provided a parameter value that is not valid for the current state of the resource.
+        // We can't find the resource that you asked for.
+
+
+        // Decrypts secret using the associated KMS CMK.
+        // Depending on whether the secret is a string or binary, one of these fields will be populated.
+        if (getSecretValueResult.getSecretString() != null) {
+            secret = getSecretValueResult.getSecretString();
+            logger.warn("===================AWS SECRET=======================");
+            logger.warn(secret);
+            logger.warn("===================AWS SECRET=======================");
+        } else {
+            decodedBinarySecret = new String(getDecoder()
+                    .decode(getSecretValueResult.getSecretBinary())
+                    .array()
+            );
+            logger.warn("===================AWS DECODED SECRET=======================");
+            logger.warn(decodedBinarySecret);
+            logger.warn("===================AWS DECODED SECRET=======================");
+
+        }
+        // Your code goes here.
     }
 }
