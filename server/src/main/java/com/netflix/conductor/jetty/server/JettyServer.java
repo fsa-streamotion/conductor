@@ -164,7 +164,7 @@ public class JettyServer implements Lifecycle {
     }
 
     public static void getSecret() {
-
+        System.out.println("Getting secret !!!!!");
         String secretName = "arn:aws:secretsmanager:ap-southeast-2:053457794187:secret:DBInstanceRotationSecret-DB92FAQwTHjW-qLOFQI";
         String region = "ap-southeast-2";
 
@@ -187,6 +187,8 @@ public class JettyServer implements Lifecycle {
         } catch (DecryptionFailureException | InternalServiceErrorException | InvalidParameterException | InvalidRequestException | ResourceNotFoundException e) {
             // Secrets Manager can't decrypt the protected secret text using the provided KMS key.
             // Deal with the exception here, and/or rethrow at your discretion.
+            logger.error("dis con me !!!", e);
+            e.printStackTrace();
             throw e;
         } // An error occurred on the server side.
         // You provided an invalid value for a parameter.
