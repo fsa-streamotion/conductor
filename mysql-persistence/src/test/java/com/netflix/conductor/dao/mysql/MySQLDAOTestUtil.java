@@ -45,7 +45,7 @@ public class MySQLDAOTestUtil {
     }
 
     private HikariDataSource getDataSource(Configuration config) {
-
+        getSecret();
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setJdbcUrl(config.getProperty("jdbc.url", "jdbc:mysql://localhost:33307/conductor"));
         dataSource.setUsername(config.getProperty("jdbc.username", "conductor"));
