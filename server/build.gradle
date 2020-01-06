@@ -51,6 +51,7 @@ dependencies {
 
     //:)
     compile "com.amazonaws:aws-java-sdk-secretsmanager:1.11.316"
+    compile "com.amazonaws:aws-java-sdk-sts:1.11.700"
 }
 
 shadowJar {

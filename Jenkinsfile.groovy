@@ -43,7 +43,9 @@ pipeline {
 
                     dir('charts/preview') {
                       sh "make preview && jx preview --app $APP_NAME --namespace=$PREVIEW_NAMESPACE --dir ../.."
-                      // try to sleep through the rolling deployment, we no want to hit the old pod
+                      sh """kubectl patch namespace ${PREVIEW_NAMESPACE.toLowerCase()} -p '{"metadata": {"annotations":{"iam.amazonaws.com/permitted":".*"}}}'"""
+
+                        // try to sleep through the rolling deployment, we no want to hit the old pod
                       sh "make print && sleep 360"
                       sh "kubectl describe pods -n $PREVIEW_NAMESPACE"
                       sh "echo '************************************************\n' && cat values.yaml"

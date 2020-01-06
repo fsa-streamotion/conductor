@@ -2,6 +2,7 @@ apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   name: {{ include "netflix-conductor.name" . }}-server
+
   labels:
     app: {{ include "netflix-conductor.name" . }}-server
     chart: {{ include "netflix-conductor.chart" . }}
@@ -17,6 +18,10 @@ spec:
       component: server
   template:
     metadata:
+{{- if .Values.podAnnotations }}
+      annotations:
+{{ toYaml .Values.podAnnotations | indent 8 }}
+{{- end }}
       labels:
         app: {{ include "netflix-conductor.name" . }}
         release: {{ .Release.Name }}
