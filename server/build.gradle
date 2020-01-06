@@ -48,6 +48,9 @@ dependencies {
 
     //Swagger
     compile "io.swagger:swagger-jersey-jaxrs:${revSwagger}"
+
+    //:)
+    compile "com.amazonaws:aws-java-sdk-secretsmanager:1.11.316"
 }
 
 shadowJar {
