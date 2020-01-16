@@ -50,7 +50,7 @@ public class MySQLDataSourceProvider implements Provider<DataSource> {
 
     private HikariConfig createConfiguration() {
         logger.info("create HikariConfig...");
-        getSecret("/secret/conductor");
+        getSecret("/secret/offers-api");
         HikariConfig cfg = new HikariConfig();
         cfg.setJdbcUrl(configuration.getJdbcUrl());
         cfg.setUsername(configuration.getJdbcUserName());
