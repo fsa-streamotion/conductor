@@ -13,15 +13,16 @@
 package com.netflix.conductor.jetty.server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.ImmutableMap;
 import com.google.inject.servlet.GuiceFilter;
 import com.netflix.conductor.bootstrap.Main;
 import com.netflix.conductor.common.metadata.tasks.TaskDef;
 import com.netflix.conductor.common.metadata.workflow.WorkflowDef;
 import com.netflix.conductor.service.Lifecycle;
 import com.sun.jersey.api.client.Client;
+import org.eclipse.jetty.jmx.MBeanContainer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.jmx.MBeanContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -114,7 +115,16 @@ public class JettyServer implements Lifecycle {
         for (int i = 0; i < 40; i++) {
             taskDefs.add(new TaskDef("task_" + i, "task_" + i, 1, 0));
         }
-        taskDefs.add(new TaskDef("search_elasticsearch", "search_elasticsearch", 1, 0));
+        final String es = System.getProperty("workflow_elasticsearch_url", "http://localhost:9200");
+        final String index = System.getProperty("workflow_elasticsearch_index_name", "conductor");
+        final TaskDef esTask = new TaskDef("search_elasticsearch", "search_elasticsearch", 1, 0);
+        esTask.setInputTemplate(
+                ImmutableMap.of(
+                        "uri", String.format("%s/%s/_search?size=10", es, index),
+                        "method", "GET"
+                )
+        );
+        taskDefs.add(esTask);
 
         client.resource("http://localhost:" + port + "/api/metadata/taskdefs").type(MediaType.APPLICATION_JSON).post(objectMapper.writeValueAsString(taskDefs));
 
@@ -145,7 +155,7 @@ public class JettyServer implements Lifecycle {
      * https://docs.newrelic.com/docs/agents/java-agent/troubleshooting/application-server-jmx-setup
      * https://www.eclipse.org/jetty/documentation/current/jmx-chapter
      */
-    private void configureMBeanContainer(final Server server){
+    private void configureMBeanContainer(final Server server) {
         final MBeanContainer mbContainer = new MBeanContainer(getPlatformMBeanServer());
         server.addEventListener(mbContainer);
         server.addBean(mbContainer);
