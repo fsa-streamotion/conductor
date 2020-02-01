@@ -21,6 +21,26 @@ print("* expect_spawning_time_secs:[{}] ".format(expect_spawning_time_secs))
 print("* expect_completion_time_secs:[{}] ".format(expect_completion_time_secs))
 print("****************************************")
 
+def patch_es_task():
+    elastic_search_task={
+        "name": "search_elasticsearch",
+        "taskReferenceName": "get_es_1",
+        "inputParameters": {
+            "http_request": {
+                "uri": "http://preview-elasticsearch-client:9200/conductor/_search?size=10",
+                "method": "GET"
+            }
+        },
+        "type": "HTTP"
+    }
+    response = requests.put(
+        url='{}/metadata/taskdefs'.format(conductor_api),
+        json=elastic_search_task,
+        headers={'content-type': 'application/json'}
+    )
+    if response.ok:
+        print('patched task: {}'.format(elastic_search_task))
+
 def count_running_worklow():
     res = requests.get('{0}/workflow/running/kitchensink?version=1'.format(conductor_api))
     return len(res.json())
@@ -39,6 +59,7 @@ def spawn():
 
 start_time = time.time()
 
+patch_es_task()
 spawn()
 time_to_spawn = time.time() - start_time
 print(" - spawning time [{}]".format(time_to_spawn))
