@@ -1,7 +1,7 @@
 from conductor.ConductorWorker import ConductorWorker
 import os
 
-default_conductor_api = 'http://locahost:8080/api'
+default_conductor_api = 'http://localhost:8080/api'
 conductor_api = os.getenv('CONDUCTOR_API', default_conductor_api)
 
 def execute(task):
