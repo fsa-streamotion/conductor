@@ -22,8 +22,8 @@ pipeline {
                 CONDUCTOR_API = "http://conductor-server.${PREVIEW_NAMESPACE}.dev.cluster.foxsports-gitops-prod.com.au/api"
                 // When adjust these, mind the resources given to preview. A eco and slow setup might just red the build.
                 EXPECT_WORKFLOW_COUNT                = "1000"
-                EXPECT_WORKFLOW_CREATION_TIME_SECS   = "300"
-                EXPECT_WORKFLOW_COMPLETION_TIME_SECS = "1000"
+                EXPECT_WORKFLOW_CREATION_TIME_SECS   = "600"
+                EXPECT_WORKFLOW_COMPLETION_TIME_SECS = "3600"
             }
             steps {
                 container('maven') {

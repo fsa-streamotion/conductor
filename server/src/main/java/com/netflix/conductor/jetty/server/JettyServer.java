@@ -115,6 +115,7 @@ public class JettyServer implements Lifecycle {
             taskDefs.add(new TaskDef("task_" + i, "task_" + i, 1, 0));
         }
         taskDefs.add(new TaskDef("search_elasticsearch", "search_elasticsearch", 1, 0));
+        taskDefs.forEach(taskDef -> taskDef.setTimeoutSeconds(7200));
 
         client.resource("http://localhost:" + port + "/api/metadata/taskdefs").type(MediaType.APPLICATION_JSON).post(objectMapper.writeValueAsString(taskDefs));
 
