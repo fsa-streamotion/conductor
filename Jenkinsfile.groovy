@@ -63,6 +63,7 @@ pipeline {
                         sh "python load_test_kitchen_sink.py"
                     }
                 }
+                archiveArtifacts "**/worker.log"
             }
         }
 
