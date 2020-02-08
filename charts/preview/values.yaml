@@ -109,7 +109,9 @@ elasticsearch:
   host: http://preview-elasticsearch-client
   port: 9200
   indexName: "conductor"
-
+  volumeClaimTemplates:
+    accessModes: [ "ReadWriteOnce" ]
+    resources.requests.storage: 7Gi
 # Add the following and change enabled to true if external redis required
 redis:
   enabled: false
@@ -125,8 +127,8 @@ mysql:
   mysqlDatabase: conductor
   resources:
     requests:
-      memory: 1Gi
-      cpu: 2000m
+      memory: 700Mi
+      cpu: 1000m
   ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services---service-types
   service:
     annotations:
