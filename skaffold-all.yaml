@@ -3,7 +3,7 @@ kind: Config
 build:
   artifacts:
   - image: netflixconductor
-    context: .
+    context: docker/serverAndUI
     docker:
       network: host
       dockerfile: docker/serverAndUI/Dockerfile
