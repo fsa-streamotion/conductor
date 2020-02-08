@@ -23,7 +23,7 @@ pipeline {
                 // When adjust these, mind the resources given to preview. A eco and slow setup might just red the build.
                 EXPECT_WORKFLOW_COUNT                = "200"
                 EXPECT_WORKFLOW_CREATION_TIME_SECS   = "200"
-                EXPECT_WORKFLOW_COMPLETION_TIME_SECS = "1000"
+                EXPECT_WORKFLOW_COMPLETION_TIME_SECS = "200"
             }
             steps {
                 container('maven') {
@@ -63,6 +63,7 @@ pipeline {
                         sh "python load_test_kitchen_sink.py"
                     }
                 }
+                archiveArtifacts "**/worker.log"
             }
         }
 
