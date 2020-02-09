@@ -5,7 +5,8 @@ FROM openjdk:8-jdk
 
 MAINTAINER Netflix OSS <conductor@netflix.com>
 RUN apt-get update -y && apt-get -y install git curl
-RUN curl -sL https://deb.nodesource.com/setup_9.x |  bash  &&  apt-get install -y nodejs build-essential
+RUN curl -sL https://deb.nodesource.com/setup_9.x |  bash
+RUN apt-get install -y nodejs
 
 # Make app folders
 RUN mkdir -p /app/config /app/logs /app/libs /app/ui
