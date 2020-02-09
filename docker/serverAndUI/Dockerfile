@@ -17,11 +17,7 @@ COPY ./config /app/config
 # Get all the dependencies
 RUN apt-get update -y \
   && apt-get -y install git curl \
-
-  # Chmod scripts
   && chmod +x /app/startup.sh \
-
-  # Get node
   && curl -sL https://deb.nodesource.com/setup_9.x |  bash - \
   && apt-get install -y nodejs build-essential
 
@@ -29,22 +25,12 @@ RUN apt-get update -y \
 RUN git clone https://github.com/fsa-streamotion/conductor.git \
   && cd conductor \
   && ./gradlew build -x test \
-
-  # Get Server Jar
   && mv ./server/build/libs/conductor-server-*-all.jar /app/libs/ \
-
-  # Get UI project
   && mv ./ui /app \
-
-  # Install UI packages
   && cd /app/ui \
   && npm install \
   && npm run build --server \
-
-  # Go back to root
   && cd / \
-
-  # Clean up
   && rm -rf conductor
 
 
