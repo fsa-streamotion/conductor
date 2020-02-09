@@ -46,15 +46,7 @@ const config = {
         })
     ],
     stats: {
-        colors: true,
-        reasons: false,
-        hash: false,
-        version: false,
-        timings: false,
-        chunks: false,
-        chunkModules: false,
-        cached: false,
-        cachedAssets: false
+        preset: 'minimal'
     },
     resolve: {
         extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx', '.json'],
