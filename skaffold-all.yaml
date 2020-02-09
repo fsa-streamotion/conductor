@@ -9,10 +9,10 @@ build:
   #   sha256: {}  
   artifacts:
   - image: netflixconductor
-    context: docker/serverAndUI
+    context: .
     docker:
       network: host
-      dockerfile: Dockerfile
+      dockerfile: docker/serverAndUI/Dockerfile
   tagPolicy:
     envTemplate:
       template: '{{.DOCKER_REGISTRY}}/netflixconductor:all-{{.VERSION}}'
