@@ -15,11 +15,8 @@ COPY ./bin /app
 COPY ./config /app/config
 
 # Get all the dependencies
-RUN apt-get update -y \
-  && apt-get -y install git curl \
-  && chmod +x /app/startup.sh \
-  && curl -sL https://deb.nodesource.com/setup_9.x |  bash - \
-  && apt-get install -y nodejs build-essential
+RUN apt-get update -y && apt-get -y install git curl && chmod +x /app/startup.sh
+RUN curl -sL https://deb.nodesource.com/setup_9.x |  bash  &&  apt-get install -y nodejs build-essential
 
 # Get and install conductor
 RUN git clone https://github.com/fsa-streamotion/conductor.git \
