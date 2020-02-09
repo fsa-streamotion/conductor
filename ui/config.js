@@ -52,9 +52,12 @@ const config = {
         version: false,
         timings: false,
         chunks: false,
+        chunkGroups: false,
         chunkModules: false,
+        chunkOrigins: false,
         cached: false,
-        cachedAssets: false
+        cachedAssets: false,
+        logging: 'warn'
     },
     resolve: {
         extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx', '.json'],
