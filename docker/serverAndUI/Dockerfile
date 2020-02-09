@@ -24,7 +24,7 @@ RUN apt-get update -y \
 # Get and install conductor
 RUN git clone https://github.com/fsa-streamotion/conductor.git \
   && cd conductor \
-  && ./gradlew build -x test \
+  && ./gradlew build -w -x test \
   && mv ./server/build/libs/conductor-server-*-all.jar /app/libs/ \
   && mv ./ui /app \
   && cd /app/ui \
