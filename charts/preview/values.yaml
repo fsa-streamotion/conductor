@@ -109,6 +109,8 @@ elasticsearch:
   host: http://preview-elasticsearch-client
   port: 9200
   indexName: "conductor"
+  persistence:
+    enabled: false
 
 # Add the following and change enabled to true if external redis required
 redis:
