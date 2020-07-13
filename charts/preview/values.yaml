@@ -137,3 +137,9 @@ mysql:
       fabric8.io/ingress.annotations: "kubernetes.io/ingress.class: nginx"
     type: ClusterIP
     port: 3306
+
+bedrock-k8s-conductor-workers:
+  enabled: true
+  env:
+    SPRING_PROFILES_ACTIVE: local,demo
+    CONDUCTOR_SERVERAPIURI: "http://conductor-server/api/"
