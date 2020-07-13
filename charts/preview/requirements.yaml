@@ -19,6 +19,11 @@ dependencies:
   repository: https://kubernetes-charts.storage.googleapis.com/
   condition: mysql.enabled
 
+- name: bedrock-k8s-conductor-workers
+  version: 1.0.9
+  repository: https://artifactory.cluster.foxsports-gitops-prod.com.au/artifactory/helm/
+  condition: bedrock-k8s-conductor-workers.enabled
+
 - alias: netflix-conductor
   name: netflix-conductor
   version: 0.4.12
