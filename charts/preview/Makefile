@@ -1,6 +1,6 @@
 OS := $(shell uname)
 
-preview: 
+preview:
 ifeq ($(OS),Darwin)
 	sed -i "" -e "s/version:.*/version: $(PREVIEW_VERSION)/" Chart.yaml
 	sed -i "" -e "s/version:.*/version: $(PREVIEW_VERSION)/" ../*/Chart.yaml
@@ -20,8 +20,12 @@ else
 	exit -1
 endif
 	echo "  version: $(PREVIEW_VERSION)" >> requirements.yaml
+	mkdir -p ~/.helm/repository
+	cp -v ../../repositories.yaml ~/.helm/repository/repositories.yaml
+	mkdir -p ~/.helm/repository/cache/
+	cp -v ../../stable-index.yaml ~/.helm/repository/cache/stable-index.yaml
 	jx step helm build
 
-print: 
+print:
 	rm -rf requirements.lock
 	helm template .
