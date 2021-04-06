@@ -51,6 +51,8 @@ release: clean
 	# end patch
 	helm lint
 	helm init --client-only
+	# until we build new gcr.io/jenkinsxio/builder-maven
+	helm repo remove storage.googleapis.com
 	helm package .
 	@echo Pushing Chart to Helm repo...
 	@curl --fail -u $(CHARTMUSEUM_CREDS) -X PUT $(CHART_REPO)/$(RELEASE_FILENAME) -T $(RELEASE_FILENAME)
