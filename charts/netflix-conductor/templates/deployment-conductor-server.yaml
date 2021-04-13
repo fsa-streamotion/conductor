@@ -31,6 +31,7 @@ spec:
 {{ toYaml .Values.server.podAnnotations | indent 8 }}
 {{- end }}
     spec:
+      serviceAccountName: {{ .Values.serviceAccount.name }}
       {{- if .Values.server.nodeSelector }}
       nodeSelector:
 {{ toYaml .Values.server.nodeSelector | indent 8 }}

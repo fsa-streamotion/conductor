@@ -17,7 +17,7 @@ cleanup:
 netflix-conductor:
   image:
     preview_repository:
-    preview_tag:
+    preview_tag: 
     pullPolicy: IfNotPresent
   redis_host: preview-redis-master
   elasticsearch_host: preview-elasticsearch-client
