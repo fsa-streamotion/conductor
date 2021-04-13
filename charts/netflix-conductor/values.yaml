@@ -49,11 +49,25 @@ server:
     EC2_AVAILABILITY_ZONE: "ap-southeast-2"
     workflow_namespace_prefix: "conductor"
     flyway_enabled: "true"
-#Add database secrets here.
-  #databaseSecrets:
-  #  secretname: secret_name
-  #  username: secret_key_username
-  #  password: secret_key_password
+    #Add database secrets here.
+    #databaseSecrets:
+    #  secretname: secret_name
+    #  username: secret_key_username
+    #  password: secret_key_password
+
+# EKS clusters, built since Jan2021 do not use KIAM, rather IRSA
+# https://aws.amazon.com/blogs/opensource/introducing-fine-grained-iam-roles-service-accounts/
+# You must already have the matching AWS IAM role deployed, normally done by
+# sceptre/cloudformation
+serviceAccount:
+  create: false
+  name: ""
+#   annotations:
+#     eks.amazonaws.com/role-arn: arn:aws:iam::<account>:role/<clustername>-eks-aws-<microservicename>-iam-role
+#   name: <clustername>-eks-aws-<microservicename>-iam-role
+
+# EKS Clusters built after Jan2021 do not use KIAM, and will just ignore
+# the following pod annotation: iam.amazonaws.com/role
 
 ui:
   repository: kayosportsau/netflixconductor
