@@ -4,7 +4,7 @@
 ext {
     revApacheCommons='2.6'
     revAwaitility = '3.1.2'
-    revAwsSdk = '1.11.86'
+    revAwsSdk = '1.11.1000'
     revArchaius = '0.7.5'
     revCassandra = '3.6.0'
     revCassandraUnit = '3.5.0.1'
