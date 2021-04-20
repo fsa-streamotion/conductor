@@ -7,26 +7,26 @@
             ]
         },
         "com.amazonaws:aws-java-sdk-core": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.amazonaws:aws-java-sdk-kms",
                 "com.amazonaws:aws-java-sdk-s3"
             ]
         },
         "com.amazonaws:aws-java-sdk-kms": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.amazonaws:aws-java-sdk-s3"
             ]
         },
         "com.amazonaws:aws-java-sdk-s3": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.netflix.conductor:conductor-core"
             ]
         },
         "com.amazonaws:jmespath-java": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.amazonaws:aws-java-sdk-kms",
                 "com.amazonaws:aws-java-sdk-s3"
@@ -273,26 +273,26 @@
             ]
         },
         "com.amazonaws:aws-java-sdk-core": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.amazonaws:aws-java-sdk-kms",
                 "com.amazonaws:aws-java-sdk-s3"
             ]
         },
         "com.amazonaws:aws-java-sdk-kms": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.amazonaws:aws-java-sdk-s3"
             ]
         },
         "com.amazonaws:aws-java-sdk-s3": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.netflix.conductor:conductor-core"
             ]
         },
         "com.amazonaws:jmespath-java": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.amazonaws:aws-java-sdk-kms",
                 "com.amazonaws:aws-java-sdk-s3"
@@ -539,26 +539,26 @@
             ]
         },
         "com.amazonaws:aws-java-sdk-core": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.amazonaws:aws-java-sdk-kms",
                 "com.amazonaws:aws-java-sdk-s3"
             ]
         },
         "com.amazonaws:aws-java-sdk-kms": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.amazonaws:aws-java-sdk-s3"
             ]
         },
         "com.amazonaws:aws-java-sdk-s3": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.netflix.conductor:conductor-core"
             ]
         },
         "com.amazonaws:jmespath-java": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.amazonaws:aws-java-sdk-kms",
                 "com.amazonaws:aws-java-sdk-s3"
@@ -868,26 +868,26 @@
             ]
         },
         "com.amazonaws:aws-java-sdk-core": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.amazonaws:aws-java-sdk-kms",
                 "com.amazonaws:aws-java-sdk-s3"
             ]
         },
         "com.amazonaws:aws-java-sdk-kms": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.amazonaws:aws-java-sdk-s3"
             ]
         },
         "com.amazonaws:aws-java-sdk-s3": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.netflix.conductor:conductor-core"
             ]
         },
         "com.amazonaws:jmespath-java": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.amazonaws:aws-java-sdk-kms",
                 "com.amazonaws:aws-java-sdk-s3"
@@ -1134,26 +1134,26 @@
             ]
         },
         "com.amazonaws:aws-java-sdk-core": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.amazonaws:aws-java-sdk-kms",
                 "com.amazonaws:aws-java-sdk-s3"
             ]
         },
         "com.amazonaws:aws-java-sdk-kms": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.amazonaws:aws-java-sdk-s3"
             ]
         },
         "com.amazonaws:aws-java-sdk-s3": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.netflix.conductor:conductor-core"
             ]
         },
         "com.amazonaws:jmespath-java": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.amazonaws:aws-java-sdk-kms",
                 "com.amazonaws:aws-java-sdk-s3"
@@ -1400,26 +1400,26 @@
             ]
         },
         "com.amazonaws:aws-java-sdk-core": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.amazonaws:aws-java-sdk-kms",
                 "com.amazonaws:aws-java-sdk-s3"
             ]
         },
         "com.amazonaws:aws-java-sdk-kms": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.amazonaws:aws-java-sdk-s3"
             ]
         },
         "com.amazonaws:aws-java-sdk-s3": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.netflix.conductor:conductor-core"
             ]
         },
         "com.amazonaws:jmespath-java": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.amazonaws:aws-java-sdk-kms",
                 "com.amazonaws:aws-java-sdk-s3"
@@ -1709,26 +1709,26 @@
             ]
         },
         "com.amazonaws:aws-java-sdk-core": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.amazonaws:aws-java-sdk-kms",
                 "com.amazonaws:aws-java-sdk-s3"
             ]
         },
         "com.amazonaws:aws-java-sdk-kms": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.amazonaws:aws-java-sdk-s3"
             ]
         },
         "com.amazonaws:aws-java-sdk-s3": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.netflix.conductor:conductor-core"
             ]
         },
         "com.amazonaws:jmespath-java": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.amazonaws:aws-java-sdk-kms",
                 "com.amazonaws:aws-java-sdk-s3"
@@ -2018,26 +2018,26 @@
             ]
         },
         "com.amazonaws:aws-java-sdk-core": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.amazonaws:aws-java-sdk-kms",
                 "com.amazonaws:aws-java-sdk-s3"
             ]
         },
         "com.amazonaws:aws-java-sdk-kms": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.amazonaws:aws-java-sdk-s3"
             ]
         },
         "com.amazonaws:aws-java-sdk-s3": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.netflix.conductor:conductor-core"
             ]
         },
         "com.amazonaws:jmespath-java": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.amazonaws:aws-java-sdk-kms",
                 "com.amazonaws:aws-java-sdk-s3"
@@ -2327,26 +2327,26 @@
             ]
         },
         "com.amazonaws:aws-java-sdk-core": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.amazonaws:aws-java-sdk-kms",
                 "com.amazonaws:aws-java-sdk-s3"
             ]
         },
         "com.amazonaws:aws-java-sdk-kms": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.amazonaws:aws-java-sdk-s3"
             ]
         },
         "com.amazonaws:aws-java-sdk-s3": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.netflix.conductor:conductor-core"
             ]
         },
         "com.amazonaws:jmespath-java": {
-            "locked": "1.11.86",
+            "locked": "1.11.1000",
             "transitive": [
                 "com.amazonaws:aws-java-sdk-kms",
                 "com.amazonaws:aws-java-sdk-s3"
