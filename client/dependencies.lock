@@ -14,8 +14,8 @@
             ]
         },
         "com.amazonaws:aws-java-sdk-core": {
-            "locked": "1.11.86",
-            "requested": "1.11.86"
+            "locked": "1.11.1000",
+            "requested": "1.11.1000"
         },
         "com.fasterxml.jackson.core:jackson-annotations": {
             "locked": "2.10.0",
@@ -400,8 +400,8 @@
             ]
         },
         "com.amazonaws:aws-java-sdk-core": {
-            "locked": "1.11.86",
-            "requested": "1.11.86"
+            "locked": "1.11.1000",
+            "requested": "1.11.1000"
         },
         "com.fasterxml.jackson.core:jackson-annotations": {
             "locked": "2.10.0",
@@ -786,8 +786,8 @@
             ]
         },
         "com.amazonaws:aws-java-sdk-core": {
-            "locked": "1.11.86",
-            "requested": "1.11.86"
+            "locked": "1.11.1000",
+            "requested": "1.11.1000"
         },
         "com.fasterxml.jackson.core:jackson-annotations": {
             "locked": "2.10.0",
@@ -1381,8 +1381,8 @@
             ]
         },
         "com.amazonaws:aws-java-sdk-core": {
-            "locked": "1.11.86",
-            "requested": "1.11.86"
+            "locked": "1.11.1000",
+            "requested": "1.11.1000"
         },
         "com.fasterxml.jackson.core:jackson-annotations": {
             "locked": "2.10.0",
@@ -1767,8 +1767,8 @@
             ]
         },
         "com.amazonaws:aws-java-sdk-core": {
-            "locked": "1.11.86",
-            "requested": "1.11.86"
+            "locked": "1.11.1000",
+            "requested": "1.11.1000"
         },
         "com.fasterxml.jackson.core:jackson-annotations": {
             "locked": "2.10.0",
@@ -2153,8 +2153,8 @@
             ]
         },
         "com.amazonaws:aws-java-sdk-core": {
-            "locked": "1.11.86",
-            "requested": "1.11.86"
+            "locked": "1.11.1000",
+            "requested": "1.11.1000"
         },
         "com.fasterxml.jackson.core:jackson-annotations": {
             "locked": "2.10.0",
@@ -2582,8 +2582,8 @@
             ]
         },
         "com.amazonaws:aws-java-sdk-core": {
-            "locked": "1.11.86",
-            "requested": "1.11.86"
+            "locked": "1.11.1000",
+            "requested": "1.11.1000"
         },
         "com.fasterxml.jackson.core:jackson-annotations": {
             "locked": "2.10.0",
@@ -3011,8 +3011,8 @@
             ]
         },
         "com.amazonaws:aws-java-sdk-core": {
-            "locked": "1.11.86",
-            "requested": "1.11.86"
+            "locked": "1.11.1000",
+            "requested": "1.11.1000"
         },
         "com.fasterxml.jackson.core:jackson-annotations": {
             "locked": "2.10.0",
@@ -3440,8 +3440,8 @@
             ]
         },
         "com.amazonaws:aws-java-sdk-core": {
-            "locked": "1.11.86",
-            "requested": "1.11.86"
+            "locked": "1.11.1000",
+            "requested": "1.11.1000"
         },
         "com.fasterxml.jackson.core:jackson-annotations": {
             "locked": "2.10.0",
