@@ -31,7 +31,23 @@ pipeline {
                     sh "echo $PREVIEW_VERSION > PREVIEW_VERSION"
                     sh "cp -v server/src/main/resources/kitchensinkpreview.json server/src/main/resources/kitchensink.json"
                     sh "skaffold version && ./gradlew build -w -x test -x :conductor-client:findbugsMain "
-                    sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-server.yaml && skaffold build -f skaffold-ui.yaml"
+                    sh '''
+                      aws sts assume-role-with-web-identity \
+                      --role-arn $AWS_ROLE_ARN \
+                      --role-session-name ecraccess \
+                      --web-identity-token file://\$AWS_WEB_IDENTITY_TOKEN_FILE \
+                      --duration-seconds 900 > /tmp/ecr-access.txt
+                    '''
+                    sh '''
+                      set +x
+                      export VERSION=$(cat PREVIEW_VERSION) && export AWS_ACCESS_KEY_ID=\$(cat /tmp/ecr-access.txt | jq -r '.Credentials.AccessKeyId') \
+                      && export AWS_SECRET_ACCESS_KEY=\$(cat /tmp/ecr-access.txt | jq -r '.Credentials.SecretAccessKey')\
+                      && export AWS_SESSION_TOKEN=\$(cat /tmp/ecr-access.txt | jq -r '.Credentials.SessionToken') && set -x 
+                      && skaffold build -f skaffold-server.yaml 
+                      && skaffold build -f skaffold-ui.yaml
+                    '''
+                    sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:\$(cat PREVIEW_VERSION)"
+
                     // Comment out skaffold build all
                     // sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold-all.yaml"
 
@@ -85,8 +101,21 @@ pipeline {
                     sh "jx step tag --version \$(cat VERSION)"
                     sh "skaffold version"
                     sh "./gradlew build -x test -x :conductor-client:findbugsMain "
-                    sh "export VERSION=`cat VERSION` && skaffold build -f skaffold-server.yaml"
-                    sh "export VERSION=`cat VERSION` && skaffold build -f skaffold-ui.yaml"
+                    sh '''
+                      aws sts assume-role-with-web-identity \
+                      --role-arn $AWS_ROLE_ARN \
+                      --role-session-name ecraccess \
+                      --web-identity-token file://\$AWS_WEB_IDENTITY_TOKEN_FILE \
+                      --duration-seconds 900 > /tmp/ecr-access.txt
+                      '''
+                    sh '''
+                      set +x
+                      export VERSION=$(cat VERSION) && export AWS_ACCESS_KEY_ID=\$(cat /tmp/ecr-access.txt | jq -r '.Credentials.AccessKeyId') \
+                      && export AWS_SECRET_ACCESS_KEY=\$(cat /tmp/ecr-access.txt | jq -r '.Credentials.SecretAccessKey')\
+                      && export AWS_SESSION_TOKEN=\$(cat /tmp/ecr-access.txt | jq -r '.Credentials.SessionToken') && set -x && skaffold version 
+                      && skaffold build -f skaffold-server.yaml 
+                      && skaffold build -f skaffold-ui.yaml
+                    '''
                     // skaffold-all.yaml builds standalone ui + server image, only be used locally or dev
                     // commenting it out for the moment because there's a checksum ERROR
                     //sh "export VERSION=`cat VERSION` && skaffold build -f skaffold-all.yaml"
