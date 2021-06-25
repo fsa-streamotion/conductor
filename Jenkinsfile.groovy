@@ -42,8 +42,8 @@ pipeline {
                       set +x
                       export VERSION=$(cat PREVIEW_VERSION) && export AWS_ACCESS_KEY_ID=\$(cat /tmp/ecr-access.txt | jq -r '.Credentials.AccessKeyId') \
                       && export AWS_SECRET_ACCESS_KEY=\$(cat /tmp/ecr-access.txt | jq -r '.Credentials.SecretAccessKey')\
-                      && export AWS_SESSION_TOKEN=\$(cat /tmp/ecr-access.txt | jq -r '.Credentials.SessionToken') && set -x 
-                      && skaffold build -f skaffold-server.yaml 
+                      && export AWS_SESSION_TOKEN=\$(cat /tmp/ecr-access.txt | jq -r '.Credentials.SessionToken') && set -x \
+                      && skaffold build -f skaffold-server.yaml \
                       && skaffold build -f skaffold-ui.yaml
                     '''
                     sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:\$(cat PREVIEW_VERSION)"
@@ -112,8 +112,8 @@ pipeline {
                       set +x
                       export VERSION=$(cat VERSION) && export AWS_ACCESS_KEY_ID=\$(cat /tmp/ecr-access.txt | jq -r '.Credentials.AccessKeyId') \
                       && export AWS_SECRET_ACCESS_KEY=\$(cat /tmp/ecr-access.txt | jq -r '.Credentials.SecretAccessKey')\
-                      && export AWS_SESSION_TOKEN=\$(cat /tmp/ecr-access.txt | jq -r '.Credentials.SessionToken') && set -x && skaffold version 
-                      && skaffold build -f skaffold-server.yaml 
+                      && export AWS_SESSION_TOKEN=\$(cat /tmp/ecr-access.txt | jq -r '.Credentials.SessionToken') && set -x && skaffold version \
+                      && skaffold build -f skaffold-server.yaml \
                       && skaffold build -f skaffold-ui.yaml
                     '''
                     // skaffold-all.yaml builds standalone ui + server image, only be used locally or dev
