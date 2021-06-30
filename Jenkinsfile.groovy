@@ -61,16 +61,19 @@ pipeline {
             when {
                 branch 'PR-*'
             }
-
-            dir('client/python') {
-                // ///DO some loadtest:
-                // 1. make sure conductor preview up & running
-                // 2. upload some workflow & tasks in conductor server
-                // 3. simulate some producers to generate X amount of workflow
-                // 4. simulate some workers to consume all the tasks (do concurrency)
-                // 5. assert we dont have any hanging tasks and all workflows completed
-                sh "python kitchensink_workers.py > worker.log &"
-                sh "python load_test_kitchen_sink.py"
+            steps {
+                container('maven') {
+                    dir('client/python') {
+                        // ///DO some loadtest:
+                        // 1. make sure conductor preview up & running
+                        // 2. upload some workflow & tasks in conductor server
+                        // 3. simulate some producers to generate X amount of workflow
+                        // 4. simulate some workers to consume all the tasks (do concurrency)
+                        // 5. assert we dont have any hanging tasks and all workflows completed
+                        sh "python kitchensink_workers.py > worker.log &"
+                        sh "python load_test_kitchen_sink.py"
+                    }
+                }
             }
         }
 
