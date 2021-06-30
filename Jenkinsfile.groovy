@@ -19,7 +19,7 @@ pipeline {
                 PREVIEW_VERSION = "0.0.0-SNAPSHOT-$BRANCH_NAME-$BUILD_NUMBER"
                 PREVIEW_NAMESPACE = "$APP_NAME-$BRANCH_NAME".toLowerCase()
                 HELM_RELEASE = "$PREVIEW_NAMESPACE".toLowerCase()
-                CONDUCTOR_API = "http://conductor-server.${PREVIEW_NAMESPACE}.dev.cluster.foxsports-gitops-prod.com.au/api"
+                CONDUCTOR_API = "http://conductor-server.${PREVIEW_NAMESPACE}.jx.gitops-prod.streamotion.gitops.com.au/api"
                 // When adjust these, mind the resources given to preview. A eco and slow setup might just red the build.
                 EXPECT_WORKFLOW_COUNT                = "200"
                 EXPECT_WORKFLOW_CREATION_TIME_SECS   = "200"
