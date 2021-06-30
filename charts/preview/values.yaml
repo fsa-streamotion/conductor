@@ -101,18 +101,18 @@ netflix-conductor:
 # Add the following and change enabled to true if external es required
 elasticsearch:
   image: "docker.elastic.co/elasticsearch/elasticsearch"
-    imageTag: "6.8.1"
-    replicas: 1
-    minimumMasterNodes: 1
-    nameOverride: elasticsearch
-    fullnameOverride: elasticsearch
-    antiAffinity: "soft"
-    persistence:
-      enabled: false
-    extraEnvs:
-      - name: xpack.security.enabled
-        value: "false"
-    clusterHealthCheckParams: "wait_for_status=green&timeout=10s"
+  imageTag: "6.8.1"
+  replicas: 1
+  minimumMasterNodes: 1
+  nameOverride: elasticsearch
+  fullnameOverride: elasticsearch
+  antiAffinity: "soft"
+  persistence:
+    enabled: false
+  extraEnvs:
+    - name: xpack.security.enabled
+      value: "false"
+  clusterHealthCheckParams: "wait_for_status=green&timeout=10s"
   enabled: true
   indexName: "conductor"
   master:
