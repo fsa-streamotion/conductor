@@ -61,6 +61,9 @@ pipeline {
             when {
                 branch 'PR-*'
             }
+            environment {
+                CONDUCTOR_API = "http://conductor-server.${PREVIEW_NAMESPACE}.jx.gitops-prod.streamotion.gitops.com.au/api"
+            }
             steps {
                 container('maven') {
                     dir('client/python') {
