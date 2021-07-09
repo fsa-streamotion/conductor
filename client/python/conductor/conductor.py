@@ -34,7 +34,7 @@ class BaseClient(object):
 
     def get(self, resPath, queryParams=None):
         theUrl = "{}/{}".format(self.baseURL, resPath)
-        resp = requests.get(theUrl, params=queryParams)
+        resp = requests.get(theUrl, params=queryParams, verify=False)
         self.__checkForSuccess(resp)
         if(resp.content == b''):
             return None
@@ -48,9 +48,9 @@ class BaseClient(object):
             theHeader = self.mergeTwoDicts(self.headers, headers)
         if body is not None:
             jsonBody = json.dumps(body, ensure_ascii=False)
-            resp = requests.post(theUrl, params=queryParams, data=jsonBody, headers=theHeader)
+            resp = requests.post(theUrl, params=queryParams, data=jsonBody, headers=theHeader, verify=False)
         else:
-            resp = requests.post(theUrl, params=queryParams, headers=theHeader)
+            resp = requests.post(theUrl, params=queryParams, headers=theHeader, verify=False)
 
         self.__checkForSuccess(resp)
         return self.__return(resp, theHeader)
@@ -63,16 +63,16 @@ class BaseClient(object):
 
         if body is not None:
             jsonBody = json.dumps(body, ensure_ascii=False)
-            resp = requests.put(theUrl, params=queryParams, data=jsonBody, headers=theHeader)
+            resp = requests.put(theUrl, params=queryParams, data=jsonBody, headers=theHeader, verify=False)
         else:
-            resp = requests.put(theUrl, params=queryParams, headers=theHeader)
+            resp = requests.put(theUrl, params=queryParams, headers=theHeader, verify=False)
 
         self.__print(resp)
         self.__checkForSuccess(resp)
 
     def delete(self, resPath, queryParams):
         theUrl = "{}/{}".format(self.baseURL, resPath)
-        resp = requests.delete(theUrl, params=queryParams)
+        resp = requests.delete(theUrl, params=queryParams, verify=False)
         self.__print(resp)
         self.__checkForSuccess(resp)
 
