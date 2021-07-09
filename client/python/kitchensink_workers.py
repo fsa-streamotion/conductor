@@ -1,8 +1,8 @@
 from conductor.ConductorWorker import ConductorWorker
 import os
 
-default_conductor_api = 'http://locahost:8080/api'
-conductor_api = os.getenv('CONDUCTOR_API', default_conductor_api)
+default_conductor_api = 'http://conductor-server.netflix-conductor-pr-108.jx.gitops-prod.streamotion.gitops.com.au/api'
+conductor_api = default_conductor_api
 
 def execute(task):
     return {'status': 'COMPLETED', 'output': {'mod': 5, 'taskToExecute': 'task_1', 'oddEven': 0}, 'logs': ['one','two']}

@@ -20,7 +20,7 @@ netflix-conductor:
     preview_tag: 
     pullPolicy: IfNotPresent
   redis_host: preview-redis-master
-  elasticsearch_host: preview-elasticsearch-client
+  elasticsearch_host: elasticsearch
 
   nameOverride: "conductor"
   fullnameOverride: "netflix-conductor"
@@ -52,7 +52,9 @@ netflix-conductor:
         memory: 4.5Gi
     env:
       workflow_elasticsearch_instanceType: "external"
-      workflow_elasticsearch_url: "http://preview-elasticsearch-client:9200"
+      workflow_elasticsearch_url: "http://elasticsearch:9200"
+      workflow_elasticsearch_cluster_health_color: "yellow"
+      workflow_elasticsearch_index_shard_count: 1
       db: "mysql"
       conductor_mysql_connection_pool_idle_min: "7"
       conductor_mysql_connection_pool_size_max: "10"
@@ -100,14 +102,20 @@ netflix-conductor:
 
 # Add the following and change enabled to true if external es required
 elasticsearch:
-  appVersion: 5.6.16
-  #https://github.com/elastic/helm-charts/tree/master/elasticsearch
-  image:
-    rep: x
-    t: y
+  image: "docker.elastic.co/elasticsearch/elasticsearch"
+  imageTag: "6.8.1"
+  replicas: 1
+  minimumMasterNodes: 1
+  nameOverride: elasticsearch
+  fullnameOverride: elasticsearch
+  antiAffinity: "soft"
+  persistence:
+    enabled: false
+  extraEnvs:
+    - name: xpack.security.enabled
+      value: "false"
+  clusterHealthCheckParams: "wait_for_status=green&timeout=10s"
   enabled: true
-  host: http://preview-elasticsearch-client
-  port: 9200
   indexName: "conductor"
   master:
     persistence:
