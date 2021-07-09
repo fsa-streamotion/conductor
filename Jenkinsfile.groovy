@@ -62,6 +62,7 @@ pipeline {
                 branch 'PR-*'
             }
             environment {
+                PREVIEW_NAMESPACE = "$APP_NAME-$BRANCH_NAME".toLowerCase()
                 CONDUCTOR_API = "http://conductor-server.${PREVIEW_NAMESPACE}.jx.gitops-prod.streamotion.gitops.com.au/api"
             }
             steps {
