@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label "streamotion-dockerhub"
+        label "streamotion-maven-java11"
     }
 
     environment {
