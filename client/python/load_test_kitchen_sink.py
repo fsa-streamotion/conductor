@@ -5,12 +5,12 @@ import requests
 
 payload = {"task2Name": "task_5"}
 
-default_conductor_api = 'http://localhost:8080/api'
+default_conductor_api = 'http://conductor-server.netflix-conductor-pr-108.jx.gitops-prod.streamotion.gitops.com.au/api'
 default_workflow_count = 50
 default_expect_spawning_time_secs = 5
 default_expect_completion_time_secs = 60
 
-conductor_api = os.getenv('CONDUCTOR_API', default_conductor_api)
+conductor_api = default_conductor_api
 workflow_count = int(os.getenv('EXPECT_WORKFLOW_COUNT', default_workflow_count))
 expect_spawning_time_secs = float(os.getenv('EXPECT_WORKFLOW_CREATION_TIME_SECS', default_expect_spawning_time_secs))
 expect_completion_time_secs = float(os.getenv('EXPECT_WORKFLOW_COMPLETION_TIME_SECS', default_expect_completion_time_secs))
@@ -32,7 +32,8 @@ def spawn():
         r = requests.post(
             url='{0}/workflow/kitchensink'.format(conductor_api),
             json=payload,
-            headers={'content-type': 'application/json'}
+            headers={'content-type': 'application/json'},
+            verify=False
         )
         print("{} -> {}".format(x, r.text))
 
